@@ -10,206 +10,192 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchFrameException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.hrms.testbase.BaseClass;
+import com.kayak.testbase.BaseClass;
 
-public class CommonMethods extends BaseClass{
-	
+public class CommonMethods extends BaseClass {
+
+
 
 
 	/**
-	 * This method accepts pop up alerts.
+	 * this method will accept the alert
+	 * 
+	 * @throws will throw NoAlertPresentException if alert is not present
 	 */
-	
 	public static void acceptAlert() {
 		try {
 			Alert alert=driver.switchTo().alert();
 			alert.accept();
 		}catch(NoAlertPresentException e) {
-			System.out.println("No Alert is present");
+			System.out.println("Alert is not present");
 		}
 	}
-	
+	/**
+	 * this method will dismiss the alert
+	 * 
+	 * @throws will throw NoAlertPresentException if alert is not present
+	 */
 	public static void dismissAlert() {
 		try {
 			Alert alert=driver.switchTo().alert();
 			alert.dismiss();
 		}catch(NoAlertPresentException e) {
-			System.out.println("No Alert is present");
+			System.out.println("Alert is not present");
 		}
 	}
-	
-	public static String getAlertText() {
-		String alertText=null;
-		try {
-			Alert alert=driver.switchTo().alert();
-			alertText=alert.getText();
-		}catch(NoAlertPresentException e) {
-			System.out.println("No Alert is present");
-		}
-		return alertText;
+	/**
+	 * this method will get a text from the alert
+	 * @return text of alert
+	 * @throws willl throw NoAlertPresentException if alert is not present
+	 */
+public static String getAlertText() {
+	String msg;
+	try {
+		Alert alert=driver.switchTo().alert();
+	  return alert.getText();
+	}catch(NoAlertPresentException e) {
+	System.out.println("Alert is not present");
+	return null;
 	}
 	
-	public static void switchToFrame(String nameOrId) {
-		try {
-			driver.switchTo().frame(nameOrId);
-		}catch(NoSuchFrameException e){
-			System.out.println("Frame is not present");
-		}
+}
+/**
+ * this method will switch to the frame
+ * @param nameOrId
+ */
+public static void switchToFrame(String nameOrId) {
+	try {
+		driver.switchTo().frame(nameOrId);
+	}catch(NoSuchFrameException e) {
+		System.out.println("frame is not present");
 	}
-	
-	public static void switchToFrame(WebElement element) {
-		try {
-			driver.switchTo().frame(element);
-		}catch(NoSuchFrameException e){
-			System.out.println("Frame is not present");
-		}
+}
+/**
+ * this method will switch to the frame
+ * @param element
+ */
+public static void switchToFrame(WebElement element) {
+	try {
+		driver.switchTo().frame(element);
+	}catch(NoSuchFrameException e) {
+		System.out.println("frame is not present");
 	}
-	
-	public static void switchToFrame(int index) {
-		try {
-			driver.switchTo().frame(index);
-		}catch(NoSuchFrameException e){
-			System.out.println("Frame is not present");
-		}
+}
+/**
+ * this method will switch to the frame
+ * @param index
+ */
+public static void switchToFrame(int index) {
+	try {
+		driver.switchTo().frame(index);
+	}catch(NoSuchFrameException e) {
+		System.out.println("frame is not present");
 	}
-	
+}
+/**
+ * this element will click on the element using JSExecutor
+ * @param element
+ */
 	public static void jsClick(WebElement element) {
 		JavascriptExecutor js=(JavascriptExecutor)driver;
 		js.executeScript("arguments[0].click();", element);
-	}
 	
+}
+	/**
+	 * this element will scroll until find specified elemt
+	 * @param element
+	 */
 	public static void scrollIntoElement(WebElement element) {
 		JavascriptExecutor js=(JavascriptExecutor)driver;
 		js.executeScript("arguments[0].scrollIntoView(true);", element);
-	}
 	
-	public static void scrollDown(WebElement element, int pixel ) {
+}
+	/**
+	 * this method will scroll page down
+	 * @param pixel
+	 */
+	public static void scrollDown(int pixel) {
 		JavascriptExecutor js=(JavascriptExecutor)driver;
 		js.executeScript("window.scrollBy(0,"+pixel+")");
-	}
 	
-	public static void scrollUp(WebElement element, int pixel ) {
+}
+	/**
+	 * this method will scroll page up
+	 * @param pixel
+	 */
+	public static void scrollUp(int pixel) {
 		JavascriptExecutor js=(JavascriptExecutor)driver;
 		js.executeScript("window.scrollBy(0,-"+pixel+")");
-	}
 	
+}
 	/**
-	 * This method will take screenshot and save it with the given file name
+	 * will take screenshot
 	 * @param fileName
 	 */
-	public static void takeScreenShot(String fileName) {
-		TakesScreenshot ts=(TakesScreenshot)driver;
-		File screen=ts.getScreenshotAs(OutputType.FILE);
-		try {
-			FileUtils.copyFile(screen, new File("screenshots/"+fileName+".png"));
-		} catch (IOException e) {
-			System.out.println("Cannot take screenshot");
-		}
-	}
-	
-//	/**
-//	 * will take screenshot
-//	 * @param fileName
-//	 */
-//	public static void takeScreenshot(String fileName) {
-// 		TakesScreenshot ts=(TakesScreenshot)driver;
-// 		File file=ts.getScreenshotAs(OutputType.FILE);
-// 		try {
-// 		FileUtils.copyFile(file, new File("screenshots/"+fileName+".png"));
-// 		}catch(IOException e) {
-// 			e.printStackTrace();
-// 		}
-//	}
-	
+	public static void takeScreenshot(String fileName) {
+ 		TakesScreenshot ts=(TakesScreenshot)driver;
+ 		File file=ts.getScreenshotAs(OutputType.FILE);
+ 		try {
+ 		FileUtils.copyFile(file, new File("screenshots/"+fileName+".png"));
+ 		}catch(IOException e) {
+ 			e.printStackTrace();
+ 		}
+}
 	/**
-	 * This method will send text to given webelement
+	 * this method will enter text
 	 * @param element
-	 * @param text
+	 * @param value
 	 */
+public static void sendText(WebElement element,String value) {
 	
-	public static void sendText(WebElement element, String text) {
-//		waitForClickability(element);
-		element.clear();
-		element.sendKeys(text);
-	}
-	
-	/**
-	 * This method will create an Object of WebDriverWait
-	 * @return WebDriverWait
-	 */
-	
-	public static WebDriverWait getWaitObject() {
-		WebDriverWait wait=new WebDriverWait(driver, Constants.EXPLICIT_WAIT_TIME);
-		return wait;
-	}
-	
-	/**
-	 * This method will wait until element becomes clickable
-	 * @param element
-	 */
-	public static void waitForClickability(WebElement element) {
-		getWaitObject().until(ExpectedConditions.elementToBeClickable(element));
-	}
-	
-	/**
-	 * This method will wait until element becomes visible
-	 * @param element
-	 */
-	public static void waitForVisibility(WebElement element) {
-		getWaitObject().until(ExpectedConditions.visibilityOf(element));
-	}
-	
-	/**
-	 * This method will wait until element becomes invisible
-	 * @param element
-	 */
-	public static void waitForInvisibility(WebElement element) {
-		getWaitObject().until(ExpectedConditions.invisibilityOf(element));
-	}
-	
-	/**
-	 * This method until the visibility of the given element and clicks on it
-	 * @param element
-	 */
-	public static void click(WebElement element) {
-		waitForClickability(element);
-		element.click();
-	}
-	
-	/**
-	 * This method will move the mouse to given element
-	 * @param target
-	 */
-	public static void moveTo(WebElement target) {
-		Actions action=new Actions(driver);
-		action.moveToElement(target);
-	}
-	
-	/**
-	 * This element does an action click to given element
-	 * @param target
-	 */
-	public static void actionsClick(WebElement target) {
-		Actions action=new Actions(driver);
-		action.click(target);
-	}
-	
-	/**
-	 * This method submits a form an waits the next page to be loaded
-	 * @param element
-	 */
-	public static void submit(WebElement element) {
-		element.submit();
-	}
-	
-	
-	
-	
-	
-	
+	element.clear();
+	element.sendKeys(value);	
+}
+/**
+ * this method will create an object of webdriver
+ * @return
+ */
+public static WebDriverWait getWaitObject() {
+	WebDriverWait wait=new WebDriverWait(driver,Constants.EXPLICIT_LOADTIME);
+	return wait;
+}
+/**
+ * wait for clickable
+ * @param element
+ */
+public static void waitForClickability(WebElement element) {
+	getWaitObject().until(ExpectedConditions.elementToBeClickable(element));
+}
+/**
+ * wait for visibilty
+ * @param element
+ */
+public static void waitForVisibility(WebElement element) {
+	getWaitObject().until(ExpectedConditions.visibilityOf(element));
+}
+/**
+ * wait for unvisibility
+ * @param element
+ */
+public static void waitForInvisibility(WebElement element) {
+	getWaitObject().until(ExpectedConditions.invisibilityOf(element));
+}
+/**
+ * will click on the element
+ * @param element
+ */
+public static void click(WebElement element) {
+	waitForClickability(element);
+	element.click();
+}
+
+
+
+
+
 }
